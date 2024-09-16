@@ -4,7 +4,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/camilleAmaury/ZigCli">
-    <img src="images/zig-logo.svg" alt="Logo" width="80" height="80">
+    <img src="images/zig-logo.svg" alt="Logo" width="400">
   </a>
 
   <h3 align="center">ZigCli</h3>
@@ -69,8 +69,8 @@ Using Easy Declaration of Commands, Parameters, Options and Arguments, you can f
             - [ ] Printing Options
             - [ ] Help Printing Option
         - [ ] Help Function
-- [] Deploying V1.0.0 :
-- [] README.md Improvements :
+- [ ] Deploying V1.0.0 :
+- [ ] README.md Improvements :
     - [ ] Licence
     - [ ] Contribution
     - [ ] Code example and Documentation
