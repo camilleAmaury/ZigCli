@@ -1,0 +1,4 @@
+.zig-cache/
+build.zig.zon
+zig-out/
+buildrun.ps1
