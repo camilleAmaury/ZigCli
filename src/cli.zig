@@ -22,32 +22,41 @@ pub const ZigCli = struct {
         defer std.process.argsFree(allocator, std_args);
 
         // ------------------------- Parsing Arguments -------------------------
-        var i: usize = 1;
-        while (i < std_args.len) : (i += 1) {
-            const arg = std_args[i];
+
+        if (std_args.len > 0) {
+            const arg = std_args[1];
+            var knownCommand: ?Commands.Command = null;
 
             // if --help command, exit after
             if (std.mem.eql(u8, arg, "--help")) {
                 try self.helpCommand();
             } else {
-                var knownCommand: ?Commands.Command = null;
                 for (self.commands) |command| {
                     if (std.mem.eql(u8, arg, command.name)) {
                         knownCommand = command;
                         break;
                     }
                 }
-
-                if (knownCommand) |value| {
-                    try stdout.print("Command Found {}\n", .{value});
-                    try bw.flush();
-                } else {
-                    try stdout.print("{s}{s}{s}{s}{s}{s}{s}{s}\n", .{ ansi.TextColors.Red, "error:", ansi.AnsiUtils.ResetColors, "\n└─ ", ansi.TextColors.BrightRed, "CommandErrors.UnknownCommand : ", ansi.AnsiUtils.ResetColors, arg });
-                    try bw.flush();
-                    try self.listCommand(5);
-                    return Commands.CommandErrors.UnknownCommand;
-                }
             }
+
+            if (knownCommand) |command| {
+                try command.run(std_args[1..]);
+            } else {
+                try stdout.print("{s}error:{s}\n└─ {s}CommandErrors.UnknownCommand : {s}{s}\n", .{ ansi.TextColors.Red, ansi.AnsiUtils.ResetColors, ansi.TextColors.BrightRed, ansi.AnsiUtils.ResetColors, arg });
+                try bw.flush();
+                try self.listCommand(5);
+                return Commands.CommandErrors.UnknownCommand;
+            }
+        } else {
+            try stdout.print("{s}error:{s}\n└─ {s}CommandErrors.NoCommand : No Command was passed to the CLI{s}\n", .{
+                ansi.TextColors.Red,
+                ansi.AnsiUtils.ResetColors,
+                ansi.TextColors.BrightRed,
+                ansi.AnsiUtils.ResetColors,
+            });
+            try bw.flush();
+            try self.listCommand(5);
+            return Commands.CommandErrors.NoCommand;
         }
     }
 
@@ -57,12 +66,12 @@ pub const ZigCli = struct {
         var bw = std.io.bufferedWriter(stdout_file);
         const stdout = bw.writer();
 
-        try stdout.print("{s}{s}{s}\n", .{ ansi.TextColors.Blue, "Avalaible Commands:", ansi.AnsiUtils.ResetColors });
+        try stdout.print("{s}Avalaible Commands:{s}\n", .{ ansi.TextColors.Blue, ansi.AnsiUtils.ResetColors });
         for (self.commands, 0..) |command, i| {
-            try stdout.print("{s}{s}{s}{s} {s}(--help){s}\n", .{ "└─ ", ansi.TextColors.Green, command.name, ansi.AnsiUtils.ResetColors, ansi.TextColors.Black, ansi.AnsiUtils.ResetColors });
+            try stdout.print("└─ {s}{s}{s} {s}(--help){s}\n", .{ ansi.TextColors.Green, command.name, ansi.AnsiUtils.ResetColors, ansi.TextColors.Black, ansi.AnsiUtils.ResetColors });
             if (i == max_items - 1 and self.commands.len != max_items) {
                 const other = if (self.commands.len == max_items + 1) "other" else "others";
-                try stdout.print("{s}{s}{s} ({d} {s}){s}\n", .{ "└─ ", ansi.TextColors.Green, "...", self.commands.len - max_items, other, ansi.AnsiUtils.ResetColors });
+                try stdout.print("└─ {s}... ({d} {s}){s}\n", .{ ansi.TextColors.Green, self.commands.len - max_items, other, ansi.AnsiUtils.ResetColors });
                 break;
             }
         }

@@ -57,12 +57,12 @@ Using Easy Declaration of Commands, Parameters, Options and Arguments, you can f
         - [x] Initialization of Commands
         - [x] Listing Commands (Printing)
         - [x] Parsing existing Commands
-        - [ ] Help Function
-        - [ ] Initialization of Arguments
-            - [ ] Initialization of Arguments
+        - [ ] Add support for Arguments
+            - [x] Initialization of Arguments
+            - [x] Initialization of Arguments
             - [ ] Parsing existing Arguments
             - [ ] Printing Arguments
-            - [ ] Help Printing Argument
+            - [x] Help Printing Argument
         - [ ] Initialization of Options
             - [ ] Initialization of Options
             - [ ] Parsing existing Options
