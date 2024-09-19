@@ -46,7 +46,18 @@ pub const AnsiUtils = struct {
     pub const ToColumn = "\x1b[{d}G";
     pub const ToPosition = "\x1b[{d};{d}H";
     pub const EraseLine = "\x1b[K";
+    pub const Underline = "\x1b[4m";
 };
+
+pub fn isAlphaNumerical(comptime str: []const u8) []const bool {
+    var indexes: [str.len]bool = undefined;
+    for (str, 0..) |character, i| {
+        if (!((character >= '0' and character <= '9') or (character >= 'A' and character <= 'Z') or (character >= 'a' and character <= 'z'))) indexes[i] = true else {
+            indexes[i] = false;
+        }
+    }
+    return indexes[0..];
+}
 
 // Print some text
 // try stdout.print("This line will be erased in 2 seconds...\n", .{});

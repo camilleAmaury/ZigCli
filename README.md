@@ -59,15 +59,16 @@ Using Easy Declaration of Commands, Parameters, Options and Arguments, you can f
         - [x] Parsing existing Commands
         - [ ] Add support for Arguments
             - [x] Initialization of Arguments
-            - [x] Initialization of Arguments
             - [ ] Parsing existing Arguments
             - [ ] Printing Arguments
             - [x] Help Printing Argument
+            - [ ] Add support for runtime error in naming convention
         - [ ] Initialization of Options
-            - [ ] Initialization of Options
+            - [x] Initialization of Options
             - [ ] Parsing existing Options
             - [ ] Printing Options
-            - [ ] Help Printing Option
+            - [x] Help Printing Option
+            - [x] Add support for runtime error in naming convention
         - [ ] Help Function
 - [ ] Deploying V1.0.0 :
 - [ ] README.md Improvements :
