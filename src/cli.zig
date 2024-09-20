@@ -87,5 +87,7 @@ pub const ZigCli = struct {
         try stdout.print("{s}Welcome to {s}'s Helper{s}\n========================\n", .{ ansi.TextColors.Blue, self.name, ansi.AnsiUtils.ResetColors });
         try bw.flush();
         try self.listCommand(self.commands.len);
+        try stdout.print("\n", .{});
+        try bw.flush();
     }
 };
