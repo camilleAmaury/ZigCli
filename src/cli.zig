@@ -37,15 +37,14 @@ pub const ZigCli = struct {
                         break;
                     }
                 }
-            }
-
-            if (knownCommand) |command| {
-                try command.run(std_args[1..]);
-            } else {
-                try stdout.print("{s}error:{s}\n└─ {s}CommandErrors.UnknownCommand : {s}{s}\n", .{ ansi.TextColors.Red, ansi.AnsiUtils.ResetColors, ansi.TextColors.BrightRed, ansi.AnsiUtils.ResetColors, arg });
-                try bw.flush();
-                try self.listCommand(5);
-                return Commands.CommandErrors.UnknownCommand;
+                if (knownCommand) |command| {
+                    try command.run(std_args[1..]);
+                } else {
+                    try stdout.print("{s}error:{s}\n└─ {s}CommandErrors.UnknownCommand : {s}{s}\n", .{ ansi.TextColors.Red, ansi.AnsiUtils.ResetColors, ansi.TextColors.BrightRed, ansi.AnsiUtils.ResetColors, arg });
+                    try bw.flush();
+                    try self.listCommand(5);
+                    return Commands.CommandErrors.UnknownCommand;
+                }
             }
         } else {
             try stdout.print("{s}error:{s}\n└─ {s}CommandErrors.NoCommand : No Command was passed to the CLI{s}\n", .{
@@ -68,7 +67,7 @@ pub const ZigCli = struct {
 
         try stdout.print("{s}Avalaible Commands:{s}\n", .{ ansi.TextColors.Blue, ansi.AnsiUtils.ResetColors });
         for (self.commands, 0..) |command, i| {
-            try stdout.print("└─ {s}{s}{s} {s}(--help){s}\n", .{ ansi.TextColors.Green, command.name, ansi.AnsiUtils.ResetColors, ansi.TextColors.Black, ansi.AnsiUtils.ResetColors });
+            try stdout.print("└─ {s}{s}{s} {s}--help{s}\n", .{ ansi.TextColors.Green, command.name, ansi.AnsiUtils.ResetColors, ansi.TextColors.Black, ansi.AnsiUtils.ResetColors });
             if (i == max_items - 1 and self.commands.len != max_items) {
                 const other = if (self.commands.len == max_items + 1) "other" else "others";
                 try stdout.print("└─ {s}... ({d} {s}){s}\n", .{ ansi.TextColors.Green, self.commands.len - max_items, other, ansi.AnsiUtils.ResetColors });

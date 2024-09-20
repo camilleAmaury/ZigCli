@@ -62,7 +62,7 @@ Using Easy Declaration of Commands, Parameters, Options and Arguments, you can f
             - [ ] Parsing existing Arguments
             - [ ] Printing Arguments
             - [x] Help Printing Argument
-            - [ ] Add support for runtime error in naming convention
+            - [x] Add support for runtime error in naming convention
         - [ ] Initialization of Options
             - [x] Initialization of Options
             - [ ] Parsing existing Options

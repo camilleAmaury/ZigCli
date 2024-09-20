@@ -7,11 +7,12 @@ pub const CommandErrors = error{ UnknownCommand, NoCommand };
 
 pub const Command = struct {
     name: []const u8,
+    description: []const u8,
     arguments: []const Arguments.Argument,
     options: []const Options.Option,
 
-    pub fn init(name: []const u8, arguments: []const Arguments.Argument, options: []const Options.Option) Command {
-        return Command{ .name = name, .arguments = arguments, .options = options };
+    pub fn init(name: []const u8, description: []const u8, arguments: []const Arguments.Argument, options: []const Options.Option) Command {
+        return Command{ .name = name, .description = description, .arguments = arguments, .options = options };
     }
 
     pub fn run(self: Command, args: [][]u8) !void {
@@ -40,7 +41,7 @@ pub const Command = struct {
 
         try stdout.print("{s}Welcome to the Command's Helper{s}\n========================\n", .{ ansi.TextColors.Blue, ansi.AnsiUtils.ResetColors });
 
-        try stdout.print("─ {s}{s}{s}\n", .{ ansi.TextColors.Green, self.name, ansi.AnsiUtils.ResetColors });
+        try stdout.print("─ {s}{s}{s} : {s}\n", .{ ansi.TextColors.Green, self.name, ansi.AnsiUtils.ResetColors, self.description });
         try bw.flush();
 
         for (self.arguments) |argument| {
